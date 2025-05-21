@@ -5,6 +5,7 @@ S3
 S4 { 2 }
 S5
 S6
+
 S3 - S4
 Sv - S1
 S1 - S2
@@ -14,3 +15,32 @@ S5 - Sd
 S4 - S6
 S6 - Sd
 S1 - S3
+
+ETAPE 1 : 
+
+F1 - SV - S1
+
+ETAPE 2 : 
+
+F1 - S1 - S2
+F2 - SV - S1
+
+ETAPE 3 : 
+
+F1 - S2 - S4
+F2 - S1 - S3
+F3 - SV - S1
+
+ETAPE 4 :
+
+F1 - S4 - S5
+F2 - S3 - S4
+F3 - S1 - S2
+F4 - SV - S1
+
+ETAPE 5 : 
+
+F1 - S5 - SD
+F2 - S4 - S5
+F3 - S2 - S4
+F4- S1 - 
