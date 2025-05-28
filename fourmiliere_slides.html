@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithme Fourmilière - Présentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ffeb3b;
+        }
+
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #ffd700;
+            margin: 0 20px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .complexity-table {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .complexity-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .complexity-table th,
+        .complexity-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .complexity-table th {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .algorithm-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .step h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+        </div>
+
+        <!-- Slide 1: Titre -->
+        <div class="slide active">
+            <h1>🐜 Algorithme Fourmilière</h1>
+            <h3>Optimisation du déplacement des fourmis</h3>
+            <div class="diagram">
+                <div class="node">Sv</div>
+                <span class="arrow">→</span>
+                <div class="node">S1</div>
+                <span class="arrow">→</span>
+                <div class="node">Sd</div>
+            </div>
+            <div class="diagram">
+                <div class="node">Sv</div>
+                <span class="arrow">→</span>
+                <div class="node">S2</div>
+                <span class="arrow">→</span>
+                <div class="node">Sd</div>
+            </div>
+            <p><strong>Objectif :</strong> Déplacer toutes les fourmis du vestibule au dortoir en un minimum d'étapes</p>
+        </div>
+
+        <!-- Slide 2: Problématique -->
+        <div class="slide">
+            <h2>📋 Problématique</h2>
+            <ul>
+                <li><strong>Contraintes spatiales :</strong> Les salles S1 et S2 ne peuvent contenir qu'une seule fourmi</li>
+                <li><strong>Contraintes temporelles :</strong> Minimiser le nombre d'étapes</li>
+                <li><strong>Contraintes de mouvement :</strong> Les fourmis se déplacent instantanément</li>
+                <li><strong>Sécurité :</strong> Éviter les prédateurs en quittant rapidement le vestibule</li>
+            </ul>
+            <div class="highlight">
+                <strong>Cas d'étude :</strong> 2 fourmis, structure Sv → {S1, S2} → Sd
+            </div>
+        </div>
+
+        <!-- Slide 3: Modélisation -->
+        <div class="slide">
+            <h2>🏗️ Modélisation du problème</h2>
+            <h3>Structure de données</h3>
+            <div class="code-block">
+struct EtatFourmiliere {
+    int fourmis_vestibule;    // Nombre dans Sv
+    int fourmis_s1;           // Nombre dans S1 (max 1)
+    int fourmis_s2;           // Nombre dans S2 (max 1)
+    int fourmis_dortoir;      // Nombre dans Sd
+    int etapes;               // Compteur d'étapes
+    vector&lt;string&gt; mouvements; // Historique
+};
+            </div>
+            <p><strong>État initial :</strong> (2, 0, 0, 0) - toutes les fourmis au vestibule</p>
+            <p><strong>État final :</strong> (0, 0, 0, 2) - toutes les fourmis au dortoir</p>
+        </div>
+
+        <!-- Slide 4: Approche algorithmique -->
+        <div class="slide">
+            <h2>🔍 Approche algorithmique</h2>
+            <h3>Recherche en largeur (BFS)</h3>
+            <div class="algorithm-steps">
+                <div class="step">
+                    <h4>1. Initialisation</h4>
+                    <p>File avec état initial<br>Set des états visités</p>
+                </div>
+                <div class="step">
+                    <h4>2. Exploration</h4>
+                    <p>Génération des états suivants possibles</p>
+                </div>
+                <div class="step">
+                    <h4>3. Validation</h4>
+                    <p>Vérification des contraintes de capacité</p>
+                </div>
+                <div class="step">
+                    <h4>4. Terminaison</h4>
+                    <p>Arrêt quand toutes les fourmis sont au dortoir</p>
+                </div>
+            </div>
+            <p><span class="highlight">Avantage BFS :</span> Garantit la solution optimale (minimum d'étapes)</p>
+        </div>
+
+        <!-- Slide 5: Génération des états -->
+        <div class="slide">
+            <h2>⚙️ Génération des états suivants</h2>
+            <h3>Mouvements possibles à chaque étape :</h3>
+            <ul>
+                <li><strong>Sv → S1 :</strong> Si S1 est vide (max 1 fourmi)</li>
+                <li><strong>Sv → S2 :</strong> Si S2 est vide (max 1 fourmi)</li>
+                <li><strong>S1 → Sd :</strong> Si une fourmi est présente dans S1</li>
+                <li><strong>S2 → Sd :</strong> Si une fourmi est présente dans S2</li>
+                <li><strong>Attente :</strong> Rester dans la salle actuelle</li>
+            </ul>
+            <div class="code-block">
+// Exemple de contraintes
+int max_v_to_s1 = min(fourmis_vestibule, 1 - fourmis_s1);
+int max_v_to_s2 = min(fourmis_vestibule, 1 - fourmis_s2);
+            </div>
+        </div>
+
+        <!-- Slide 6: Solution optimale -->
+        <div class="slide">
+            <h2>✅ Solution optimale pour f=2</h2>
+            <h3>Résolution en 2 étapes :</h3>
+            <div class="step">
+                <h4>Étape 1 :</h4>
+                <p>f1 : Sv → S1<br>f2 : Sv → S2</p>
+                <p>État : (0, 1, 1, 0)</p>
+            </div>
+            <div class="step">
+                <h4>Étape 2 :</h4>
+                <p>f1 : S1 → Sd<br>f2 : S2 → Sd</p>
+                <p>État final : (0, 0, 0, 2)</p>
+            </div>
+            <div class="highlight">
+                <strong>Résultat :</strong> Déplacement optimal en 2 étapes seulement !
+            </div>
+        </div>
+
+        <!-- Slide 7: Complexité -->
+        <div class="slide">
+            <h2>📊 Analyse de complexité</h2>
+            <div class="complexity-table">
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Complexité</th>
+                        <th>Justification</th>
+                    </tr>
+                    <tr>
+                        <td>Espace des états</td>
+                        <td>O((f+1)³)</td>
+                        <td>Combinaisons possibles de répartition</td>
+                    </tr>
+                    <tr>
+                        <td>Temps (BFS)</td>
+                        <td>O(E + V)</td>
+                        <td>Exploration du graphe d'états</td>
+                    </tr>
+                    <tr>
+                        <td>Mémoire</td>
+                        <td>O(V)</td>
+                        <td>Stockage des états visités</td>
+                    </tr>
+                </table>
+            </div>
+            <p><strong>Pour f=2 :</strong> Espace d'états très réduit → Performance excellente</p>
+        </div>
+
+        <!-- Slide 8: Extensions et conclusion -->
+        <div class="slide">
+            <h2>🚀 Extensions et conclusion</h2>
+            <h3>Possibilités d'extension :</h3>
+            <ul>
+                <li><strong>Structures complexes :</strong> Plus de salles intermédiaires</li>
+                <li><strong>Capacités variables :</strong> Salles pouvant contenir n fourmis</li>
+                <li><strong>Graphes généraux :</strong> Topologies arbitraires</li>
+                <li><strong>Optimisations :</strong> A*, heuristiques</li>
+            </ul>
+            <div class="highlight">
+                <strong>Conclusion :</strong> L'algorithme BFS garantit une solution optimale pour le problème de déplacement des fourmis, avec une complexité maîtrisée pour les cas pratiques.
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="previousSlide()">← Précédent</button>
+        <button class="btn" onclick="nextSlide()">Suivant →</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            document.getElementById('currentSlide').textContent = index + 1;
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            showSlide(currentSlideIndex);
+        }
+
+        function previousSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlideIndex);
+        }
+
+        // Navigation au clavier
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Auto-play option (désactivé par défaut)
+        /*
+        setInterval(() => {
+            nextSlide();
+        }, 10000); // Change slide every 10 seconds
+        */
+    </script>
+</body>
+</html>

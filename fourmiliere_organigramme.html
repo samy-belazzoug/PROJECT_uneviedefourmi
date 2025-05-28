@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organigramme Logique - Algorithme Fourmilière</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .node {
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .start {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 50px;
+        }
+
+        .process {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+        }
+
+        .decision {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            position: relative;
+            transform: rotate(45deg);
+            width: 160px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .decision-text {
+            transform: rotate(-45deg);
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .end {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            border-radius: 50px;
+        }
+
+        .input-output {
+            background: linear-gradient(45deg, #9C27B0, #7B1FA2);
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .arrow-down {
+            transform: rotate(90deg);
+        }
+
+        .arrow-right {
+            transform: rotate(0deg);
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .branch-label {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .loop-indicator {
+            border: 3px dashed #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-shape {
+            width: 40px;
+            height: 30px;
+            border-radius: 8px;
+        }
+
+        .sub-process {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .sub-process h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .mini-flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mini-node {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .complexity-info {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .flow-row {
+                flex-direction: column;
+            }
+            
+            .node {
+                min-width: 150px;
+                font-size: 14px;
+            }
+            
+            .decision {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐜 Organigramme Logique - Algorithme Fourmilière</h1>
+
+        <div class="flowchart">
+            <!-- Début -->
+            <div class="node start">
+                🚀 DÉBUT
+            </div>
+            <div class="arrow arrow-down">↓</div>
+
+            <!-- Initialisation -->
+            <div class="node input-output">
+                📥 ENTRÉE: f fourmis<br>
+                Structure: Sv → {S1, S2} → Sd
+            </div>
+            <div class="arrow arrow-down">↓</div>
+
+            <!-- Initialisation des structures -->
+            <div class="node process">
+                🏗️ INITIALISATION<br>
+                État initial: (f, 0, 0, 0)<br>
+                File BFS ← état_initial<br>
+                États_visités ← ∅
+            </div>
+            <div class="arrow arrow-down">↓</div>
+
+            <!-- Boucle principale -->
+            <div class="loop-indicator">
+                <div class="node decision">
+                    <div class="decision-text">File<br>vide ?</div>
+                </div>
+                
+                <div class="flow-row">
+                    <div class="branch">
+                        <div class="branch-label">OUI</div>
+                        <div class="arrow arrow-right">→</div>
+                        <div class="node end">
+                            ❌ ÉCHEC<br>
+                            Aucune solution
+                        </div>
+                    </div>
+
+                    <div class="branch">
+                        <div class="branch-label">NON</div>
+                        <div class="arrow arrow-down">↓</div>
+                        
+                        <!-- Extraction de l'état -->
+                        <div class="node process">
+                            🔄 EXTRACTION<br>
+                            état_actuel ← file.pop()
+                        </div>
+                        <div class="arrow arrow-down">↓</div>
+
+                        <!-- Test de fin -->
+                        <div class="node decision">
+                            <div class="decision-text">Toutes<br>fourmis<br>au dortoir ?</div>
+                        </div>
+
+                        <div class="flow-row">
+                            <div class="branch">
+                                <div class="branch-label">OUI</div>
+                                <div class="arrow arrow-right">→</div>
+                                <div class="node end">
+                                    ✅ SUCCÈS<br>
+                                    Solution trouvée !
+                                </div>
+                            </div>
+
+                            <div class="branch">
+                                <div class="branch-label">NON</div>
+                                <div class="arrow arrow-down">↓</div>
+                                
+                                <!-- Génération des états suivants -->
+                                <div class="sub-process">
+                                    <h3>🔧 GÉNÉRATION DES ÉTATS SUIVANTS</h3>
+                                    <div class="mini-flowchart">
+                                        <div class="mini-node">Pour chaque combinaison de mouvements:</div>
+                                        <div class="mini-node">• Sv → S1 (si S1 libre)</div>
+                                        <div class="mini-node">• Sv → S2 (si S2 libre)</div>
+                                        <div class="mini-node">• S1 → Sd (si fourmi en S1)</div>
+                                        <div class="mini-node">• S2 → Sd (si fourmi en S2)</div>
+                                        <div class="mini-node">Valider contraintes</div>
+                                    </div>
+                                </div>
+                                <div class="arrow arrow-down">↓</div>
+
+                                <!-- Traitement des nouveaux états -->
+                                <div class="node process">
+                                    🔍 TRAITEMENT<br>
+                                    Pour chaque nouvel_état valide:<br>
+                                    Si non visité → ajouter à la file
+                                </div>
+                                <div class="arrow arrow-down">↓</div>
+
+                                <!-- Retour à la boucle -->
+                                <div class="arrow arrow-right" style="transform: rotate(180deg);">↪</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sortie -->
+            <div class="node input-output">
+                📤 SORTIE<br>
+                Séquence optimale de mouvements<br>
+                Nombre minimum d'étapes
+            </div>
+        </div>
+
+        <!-- Légende -->
+        <div class="legend">
+            <h2 style="grid-column: 1/-1; text-align: center; color: #ffd700; margin-bottom: 15px;">🔍 Légende</h2>
+            
+            <div class="legend-item">
+                <div class="legend-shape start"></div>
+                <span>Début/Fin</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-shape process"></div>
+                <span>Processus</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-shape" style="background: linear-gradient(45deg, #FF9800, #F57C00); transform: rotate(45deg);"></div>
+                <span>Decision</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-shape input-output" style="clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);"></div>
+                <span>Entrée/Sortie</span>
+            </div>
+        </div>
+
+        <!-- Informations sur la complexité -->
+        <div class="complexity-info">
+            <h3>📊 Analyse de Complexité</h3>
+            <p><strong>Complexité temporelle :</strong> O(États × Transitions) = O((f+1)³ × 2^4)</p>
+            <p><strong>Complexité spatiale :</strong> O(États visités) = O((f+1)³)</p>
+            <p><strong>Pour f=2 :</strong> Environ 27 états possibles maximum</p>
+            <p><strong>Garantie :</strong> BFS trouve toujours la solution optimale (minimum d'étapes)</p>
+        </div>
+
+        <!-- Exemple de trace -->
+        <div class="sub-process">
+            <h3>🎯 Exemple de trace pour f=2</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; text-align: center;">
+                <div class="mini-node">Initial: (2,0,0,0)</div>
+                <div class="mini-node">Étape 1: (0,1,1,0)</div>
+                <div class="mini-node">Final: (0,0,0,2)</div>
+            </div>
+            <p style="margin-top: 10px; text-align: center;"><strong>Résultat :</strong> Solution optimale en 2 étapes</p>
+        </div>
+    </div>
+</body>
+</html>
