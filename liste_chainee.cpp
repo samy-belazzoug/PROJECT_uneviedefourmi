@@ -131,8 +131,19 @@ class ListeChainee {
         }
 
     void getTaille() {
-
-    }
+            if (tete == nullptr) {
+                cout << "La liste est vide : 0" << endl;
+            }
+            else {
+                Cellule* current = tete;
+                int count = 1 ;
+                while (current->suiv != nullptr) {
+                    current = current->suiv;
+                    count ++;
+                }
+                cout << "La taille de la liste chainee est de : " << count << endl;
+            }
+        }
 
     void afficher() {
             Cellule* courant = tete;
@@ -149,26 +160,21 @@ class ListeChainee {
 };
 
 int main() {
-    ListeChainee liste;
+    ListeChainee liste; liste.afficher();
+    liste.getTaille();
+    liste.ajouterEnTete('A'); liste.afficher();
+    liste.ajouterEnQueue('B'); liste.afficher();
+    liste.ajouterEnTete('C'); liste.afficher();
+    liste.getTaille();
+    liste.ajouterEnQueue('D'); liste.afficher();
+    liste.allerAuDebut(); liste.position_fourmi();
+    liste.allerSuivant(); liste.position_fourmi();
+    liste.allerSuivant(); liste.position_fourmi();
+    liste.allerPrecedent(); liste.position_fourmi();
+    liste.allerALaFin(); liste.position_fourmi();
     liste.afficher();
-    liste.ajouterEnTete('A');
-    liste.afficher();
-    liste.ajouterEnQueue('B');
-    liste.afficher();
-    liste.ajouterEnTete('C');
-    liste.afficher();
-    liste.ajouterEnQueue('D');
-    liste.afficher();
-    liste.allerAuDebut();
-    liste.position_fourmi();
-    liste.allerSuivant();
-    liste.position_fourmi();
-    liste.allerSuivant();
-    liste.position_fourmi();
-    liste.allerPrecedent();
-    liste.position_fourmi();
-    liste.allerALaFin();
-    liste.position_fourmi();
+    liste.getTaille();
+    liste.supprimer_liste();
     liste.afficher();
     return 0;
 }
