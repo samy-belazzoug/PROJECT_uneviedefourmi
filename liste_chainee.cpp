@@ -96,14 +96,26 @@ class ListeChainee {
        }
     }
 
-    void estPremier(Cellule* nom) {
-            if (nom->précédent == nullptr) {
-                cout << nom << " " << "est la premiere Cellule." << endl;
+    void estPremier(char nom) {
+            //A AMELIORER : VERIFIER SI LE PARAMETRE EST DANS LA LISTE CHAINEE
+            if (tete->nom == nom) {cout << nom << " " << "est la premiere Cellule." << endl;}
+            else {
+                cout << nom << " " << "n'est pas la premiere Cellule" << endl;
             }
     }
 
-    void estDernier() {
-
+    void estDernier(char nom) {
+            //A AMELIORER : VERIFIER SI LE PARAMETRE ESR DANS LA LISTE CHAINEE
+            Cellule* current;
+            while (current->suiv != nullptr) {
+                current = current->suiv;
+            }
+            if (current->nom == nom) {
+                cout << nom << " " << "est la derniere Cellule." << endl;
+            }
+            else {
+                cout << nom << " " << "n'est pas la derniere Cellule" << endl;
+            }
     }
 
     void insererAvant() {
@@ -174,7 +186,10 @@ int main() {
     liste.allerALaFin(); liste.position_fourmi();
     liste.afficher();
     liste.getTaille();
+    liste.estDernier('A');
+    liste.estPremier('B');
+    liste.estDernier('D');
+    liste.estPremier('C');
     liste.supprimer_liste();
-    liste.afficher();
     return 0;
 }
