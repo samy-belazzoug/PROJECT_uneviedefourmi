@@ -1,10 +1,14 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 struct Cellule {
     char nom;
+    int taille;
+    vector<Cellule*> presence = {};
     Cellule *suiv;
+    Cellule *suiv2;
     Cellule *précédent;
 };
 
@@ -34,10 +38,12 @@ class ListeChainee {
         }
 
     void ajouterEnQueue(char nom) {
+
             if (tete == nullptr) {
                 //cas ou la liste est vide.
                 ajouterEnTete(nom);
             }
+
             else {
                 Cellule* new_qcell = new Cellule;
                 Cellule* current = tete;
@@ -97,7 +103,6 @@ class ListeChainee {
     }
 
     void estPremier(char nom) {
-            //A AMELIORER : VERIFIER SI LE PARAMETRE EST DANS LA LISTE CHAINEE
             if (tete->nom == nom) {cout << nom << " " << "est la premiere Cellule." << endl;}
             else {
                 cout << nom << " " << "n'est pas la premiere Cellule" << endl;
@@ -105,7 +110,6 @@ class ListeChainee {
     }
 
     void estDernier(char nom) {
-            //A AMELIORER : VERIFIER SI LE PARAMETRE ESR DANS LA LISTE CHAINEE
             Cellule* current;
             while (current->suiv != nullptr) {
                 current = current->suiv;
@@ -118,9 +122,46 @@ class ListeChainee {
             }
     }
 
-    void insererAvant() {
+    void ajouterSuivant(char cible, char nom) {
+            Cellule* current = tete;
+            Cellule* nouvelle = new Cellule;
+            nouvelle->nom = nom;
 
-    }
+            while (current->nom != cible) {
+                current = current->suiv;
+            }
+
+            if (current->suiv == nullptr) {
+                current->suiv = nouvelle;
+            }
+
+            else {
+                Cellule* suivant = current->suiv;
+                current->suiv = nouvelle;
+                suivant->précédent = nouvelle;
+            }
+        }
+
+    void ajouterSuivant2(char cible, char nom) {
+            Cellule* current = tete;
+            Cellule* nouvelle = new Cellule;
+            nouvelle->nom = nom;
+
+            while (current->nom != cible) {
+                current = current->suiv;
+            }
+
+            if (current->suiv == nullptr) {
+                current->suiv2 = nouvelle;
+            }
+
+            else {
+                Cellule* suivant = current->suiv;
+                current->suiv2 = nouvelle;
+                suivant->précédent = nouvelle;
+            }
+
+           }
 
     void remplacer() {
 
@@ -164,32 +205,17 @@ class ListeChainee {
                 courant = courant->suiv;
             }
             cout << "NULL" << endl;
-        }
+            }
 
     void position_fourmi() {
             cout << "La fourmi est dans la Cellule : " << fourmi->nom << endl;
         }
 };
 
+ListeChainee fourmiliereZero;
+
 int main() {
-    ListeChainee liste; liste.afficher();
-    liste.getTaille();
-    liste.ajouterEnTete('A'); liste.afficher();
-    liste.ajouterEnQueue('B'); liste.afficher();
-    liste.ajouterEnTete('C'); liste.afficher();
-    liste.getTaille();
-    liste.ajouterEnQueue('D'); liste.afficher();
-    liste.allerAuDebut(); liste.position_fourmi();
-    liste.allerSuivant(); liste.position_fourmi();
-    liste.allerSuivant(); liste.position_fourmi();
-    liste.allerPrecedent(); liste.position_fourmi();
-    liste.allerALaFin(); liste.position_fourmi();
-    liste.afficher();
-    liste.getTaille();
-    liste.estDernier('A');
-    liste.estPremier('B');
-    liste.estDernier('D');
-    liste.estPremier('C');
-    liste.supprimer_liste();
+
+
     return 0;
 }
