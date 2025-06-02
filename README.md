@@ -2,57 +2,74 @@
 
 ### 🎯 **Problématique**
 
-L’objectif de ce projet est de modéliser une fourmilière à l’aide d’une structure de données dynamique (liste chaînée), dans laquelle plusieurs fourmis peuvent se déplacer, de cellule en cellule, pour atteindre un point de rassemblement (le vestibule). Le projet vise à illustrer la notion de graphe, de parcours, ainsi que de gestion de mémoire dynamique en C++.
+Ce projet avait pour objectif de simuler une fourmilière en C++, modélisée par une structure de données dynamique. Il s'agissait d'un travail en groupe, avec comme but final de représenter le déplacement de fourmis à travers une structure de type graphe, chaque cellule étant un nœud, et chaque passage possible un arc.
 
 ---
 
 ### 🧩 **Analyse du problème**
 
-Une fourmilière peut être modélisée comme un **graphe orienté**, chaque cellule représentant un **nœud**, et chaque passage possible entre cellules un **arc**. Les fourmis sont des agents qui parcourent ce graphe selon certaines règles (non implémentées ici, mais envisagées comme parcours en profondeur ou en largeur).
+Nous devions :
+
+* Créer une structure de données capable de représenter la fourmilière
+* Simuler le déplacement d'agents (les fourmis) à travers cette structure
+* Penser à l’avenir à une stratégie de parcours (DFS, BFS, etc.)
+* Travailler à plusieurs sur la conception, l’implémentation et la réflexion
 
 ---
 
-### 🔧 **Solutions apportées**
+### 🔧 **Travail réalisé**
 
-Le projet, bien que partiel, pose les fondations de cette modélisation :
+#### Structure de données mise en place :
 
-* Utilisation d’une **liste doublement chaînée** pour représenter la fourmilière.
-* Ajout d’un pointeur `fourmi` permettant de simuler le déplacement d’un agent dans la liste.
-* Développement des fonctions : `allerAuDebut`, `allerALaFin`, `allerSuivant`, `allerPrecedent` permettant de suivre le cheminement d'une fourmi.
-* Introduction d’une structuration plus avancée :
+* Liste doublement chaînée représentant les cellules
+* Déplacements de la fourmi simulés via des fonctions `allerAuDebut`, `allerSuivant`, etc.
+* Ajout de nouvelles idées :
 
-  * Capacité d’accueil (`taille`)
-  * Suivi des fourmis présentes dans chaque cellule (`std::vector<Cellule*>`)
-  * Possibilité de bifurcation via `suiv2` (structure hybride liste/arbre)
+  * Capacité de la cellule (`taille`)
+  * Liste des fourmis présentes (`vector<Cellule*>`)
+  * Pointeur `suiv2` pour former un arbre binaire / graphe
+
+#### Organisation :
+
+* Le projet a été principalement abordé sur la deuxième semaine
+* La première semaine a surtout été consacrée à la compréhension et à la théorie
+* Le code produit aujourd’hui est solide en termes de base structurelle, prêt à accueillir les algorithmes de déplacement
 
 ---
 
-### 🧠 **Limites et manques**
+### 🤝 **Travail en groupe**
 
-Par manque de temps, les éléments suivants n’ont pas pu être finalisés :
+Ce projet a révélé des difficultés dans l'organisation collective :
 
-* Implémentation d’un véritable algorithme de parcours (DFS, BFS)
-* Gestion simultanée de plusieurs fourmis
-* Conflits d’accès, blocages de cellule, ou priorités
-* Interface utilisateur ou affichage graphique
+* Une collègue, prise par d'autres examens, a été très peu disponible.
+* Un autre membre de l'équipe avance à un rythme beaucoup plus lent, ce qui a rendu la répartition des tâches techniques (pointeurs, dynamique, etc.) délicate.
+* En pratique, une grande partie du travail de conception et d’implémentation a été menée de façon individuelle, dans l’esprit de faire progresser tout le groupe.
 
 ---
 
 ### 📚 **Ce que j’ai appris**
 
-Même si le projet n’est pas complet, j’ai énormément appris, notamment :
+* Manipulation avancée des pointeurs et des structures chaînées
+* Début de réflexion sur la transformation d’une liste en graphe/arbre
+* Gestion de la mémoire dynamique
+* Approche itérative : poser les bases avant d’implémenter l’algorithme
+* Organisation et réalités du travail de groupe dans un cadre technique
 
-* Les structures de listes chaînées en profondeur (pointeurs, gestion mémoire)
-* La conception de structures hybrides (liste/arbre/graphes)
-* La visualisation du comportement d'agents dans une structure de données
-* Une introduction naturelle à des notions plus avancées (parcours de graphe, STL, etc.)
+---
+
+### 📉 **Limites**
+
+* Pas d’algorithme de déplacement implémenté
+* Une seule fourmi simulée pour l’instant
+* La dynamique de groupe a ralenti fortement la progression prévue
+* Le travail a démarré trop tard (semaine 2), limitant la portée finale
 
 ---
 
 ### ✅ **Conclusion**
 
-Le projet, bien qu’inachevé, a été une formidable opportunité de progresser techniquement et conceptuellement. Les bases sont posées pour aller bien plus loin : implémentation d’algorithmes, gestion de flux concurrents, simulation de comportements.
+Le projet n’est pas terminé, mais il représente un socle très solide pour une poursuite post-rendu. Toutes les structures nécessaires sont prêtes pour implémenter les logiques de parcours et de gestion de plusieurs fourmis. Malgré une gestion de temps et d'équipe compliquée, ce projet a permis **une montée en compétence réelle**, surtout en ce qui concerne la manipulation bas-niveau en C++.
 
-Ce n’est pas la fin du projet, juste la fin d’un premier chapitre. La suite promet d’être encore plus intéressante !
+La suite du projet reste ouverte — et prometteuse.
 
 ---
